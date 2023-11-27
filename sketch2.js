@@ -1,53 +1,32 @@
-let tableData = [
-  [1, 2, 3, 4],
-  [5, 6, 7, 8],
-  [9, 10, 11, 12],
-];
-
 function setup() {
   createCanvas(400, 300);
 }
 
+let img, img1;
+let state = "key in";
+let state3 = "unlocked";
+
+function preload() {
+  img1 = loadImage('circuit.jpeg');
+  img = loadImage('circuit1.png');
+}
 function draw() {
-  background(220);
-
-  let numRows = tableData.length;
-  let numCols = tableData[0].length;
-
-  // Set cell size
-  let cellWidth = width / numCols;
-  let cellHeight = height / numRows;
-
-  // Draw table
-  for (let i = 0; i < numRows; i++) {
-    for (let j = 0; j < numCols; j++) {
-      // Draw cell
-      let x = j * cellWidth;
-      let y = i * cellHeight;
-      fill(255);
-      stroke(0);
-      rect(x, y, cellWidth, cellHeight);
-
-      // Display data in the cell
-      fill(0);
-      noStroke();
-      textAlign(CENTER, CENTER);
-      textSize(16);
-      text(tableData[i][j], x + cellWidth / 2, y + cellHeight / 2);
+  // displaying the circuit images for switched off and on modes and creating the jockey mechanism
+  if (state == "key in") {
+    image(img1, 370, 100);
+    circle(width / 2 + 100, 440, 100);
+    stroke(255, 0, 0);
+    line(width / 2 + 100, 440, width / 2 + 100, 390);
+    stroke(0);
+    if (state3 == "unlocked") {
+      x = constrain(mouseX, 435, 1098);
     }
-  }
-
-  // Draw horizontal lines
-  for (let i = 1; i < numRows; i++) {
-    let y = i * cellHeight;
+    line(width / 2 + 10, 410, x, 515);
+    circle(x, 515, 10);
+  } else {
+    image(img, 370, 100);
     stroke(0);
-    line(0, y, width, y);
-  }
-
-  // Draw vertical lines
-  for (let j = 1; j < numCols; j++) {
-    let x = j * cellWidth;
-    stroke(0);
-    line(x, 0, x, height);
+    line(width / 2 + 10, 410, (1098 + 435) / 2, 515);
+    circle((1098 + 435) / 2, 515, 10);
   }
 }

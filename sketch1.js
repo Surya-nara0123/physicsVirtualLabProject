@@ -227,7 +227,7 @@ class table {
             noStroke();
             let s = PI * 0.25 * 0.25 * temp;
             textSize(20);
-            text(temp.toFixed(3), x + cellWidth / 2, 50 + y + cellHeight / 2);
+            text("mean value of X = " + s.toFixed(3) + "x 10^-6", x -100 + cellWidth / 2, 50 + y + cellHeight / 2);
             textSize(12);
         }
     }
@@ -268,15 +268,7 @@ function setup() {
 // draw fucntion -- unlimited loop
 function draw() {
     if (exp == 0) {
-        // creating the buttons to assign the values of the R
-        r1 = new button(260, 290, 100, 20, 0.1);
-        r2 = new button(260, 320, 100, 20, 0.2);
-        r3 = new button(260, 350, 100, 20, 0.3);
-        r4 = new button(260, 380, 100, 20, 0.4);
-
-        // background color
-        //background(0, 0, 255);
-
+        clear();
         // displaying the circuit images for switched off and on modes and creating the jockey mechanism
         if (state == "key in") {
             image(img1, 370, 100);
@@ -295,6 +287,16 @@ function draw() {
             line(width / 2 + 10, 410, (1098 + 435) / 2, 515);
             circle((1098 + 435) / 2, 515, 10);
         }
+
+        // creating the buttons to assign the values of the R
+        r1 = new button(260, 290, 100, 20, 0.1);
+        r2 = new button(260, 320, 100, 20, 0.2);
+        r3 = new button(260, 350, 100, 20, 0.3);
+        r4 = new button(260, 380, 100, 20, 0.4);
+
+        // background color
+        //background(0, 0, 255);
+
 
         // creating the basic buttons
         // switch on/off the circuit
@@ -352,20 +354,12 @@ function draw() {
                 line(width / 2 + 100, 440, (width / 2 + 100) + (50 * sin(theta)), 440 - (50 * cos(theta)));
                 strokeWeight(1);
             }
-
+            
         }
-
+        
         exp1.displayTable();
     } else {
-        // creating the buttons to assign the values of the R
-        r1 = new button(260, 290, 100, 20, 3.0);
-        r2 = new button(260, 320, 100, 20, 3.1);
-        r3 = new button(260, 350, 100, 20, 3.2);
-        r4 = new button(260, 380, 100, 20, 3.3);
-        
-        // background color
-        //background(0, 0, 255);
-        
+        clear();
         // displaying the circuit images for switched off and on modes and creating the jockey mechanism
         if (state == "key in") {
             image(img1, 370, 100);
@@ -384,7 +378,17 @@ function draw() {
             line(width / 2 + 10, 410, (1098 + 435) / 2, 515);
             circle((1098 + 435) / 2, 515, 10);
         }
-
+        
+        // creating the buttons to assign the values of the R
+        r1 = new button(260, 290, 100, 20, 3.0);
+        r2 = new button(260, 320, 100, 20, 3.1);
+        r3 = new button(260, 350, 100, 20, 3.2);
+        r4 = new button(260, 380, 100, 20, 3.3);
+        
+        // background color
+        //background(0, 0, 255);
+        
+        
         // creating the basic buttons
         // switch on/off the circuit
         switchOnOff.draw();
@@ -519,7 +523,6 @@ function mousePressed() {
                 x2 = r;
             }
         }
-        console.log(r);
 
         // left gap or right gap?
         if (leftGap.mouseCollide()) {
@@ -655,7 +658,6 @@ function mousePressed() {
                 x2 = r;
             }
         }
-        console.log(r);
 
         // left gap or right gap?
         if (leftGap.mouseCollide()) {
