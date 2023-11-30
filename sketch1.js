@@ -49,47 +49,53 @@ class table {
         this.i = 1;
         if (this.exp == 0) {
             this.data = [
-                ["S.no", "Left Gap", "Right Gap", "l3~l4", "R/(l3~l4)"],
-                [undefined, undefined, undefined, undefined, undefined],
-                [undefined, undefined, undefined, undefined, undefined],
-                [undefined, undefined, undefined, undefined, undefined],
-                [undefined, undefined, undefined, undefined, undefined]
+                ["S.no","R", "Left Gap", "Right Gap", "l3~l4", "R/(l3~l4)"],
+                [undefined, undefined, undefined, undefined, undefined, undefined],
+                [undefined, undefined, undefined, undefined, undefined, undefined],
+                [undefined, undefined, undefined, undefined, undefined, undefined],
+                [undefined, undefined, undefined, undefined, undefined, undefined]
             ]
         } else {
             this.data1 = [
-                ["S.no", "Left Gap", "Right Gap", "l1 - l2", "R/(l3~l4)"],
-                [undefined, undefined, undefined, undefined, undefined],
-                [undefined, undefined, undefined, undefined, undefined],
-                [undefined, undefined, undefined, undefined, undefined],
-                [undefined, undefined, undefined, undefined, undefined]]
+                ["S.no", "R", "Left Gap", "Right Gap", "l1 - l2", "R/(l3~l4)"],
+                [undefined, undefined, undefined, undefined, undefined, undefined],
+                [undefined, undefined, undefined, undefined, undefined, undefined],
+                [undefined, undefined, undefined, undefined, undefined, undefined],
+                [undefined, undefined, undefined, undefined, undefined, undefined]]
         }
     }
 
     addRow(a1, a2, a3) {
         if (this.exp == 0) {
             this.data[this.i][0] = this.i
+            if(a3 != undefined){
+                this.data[this.i][1] = a3;
+            }
             if (a1 != undefined) {
-                this.data[this.i][1] = a1 / 100;
+                this.data[this.i][2] = a1 / 100;
             }
             if (a2 != undefined) {
-                this.data[this.i][2] = a2 / 100;
+                this.data[this.i][3] = a2 / 100;
             }
-            if (this.data[this.i][1] != undefined && this.data[this.i][2] != undefined) {
-                this.data[this.i][3] = Math.round(Math.abs(this.data[this.i][1] - this.data[this.i][2]) * 100) / 100
-                this.data[this.i][4] = Math.round((a3 / (this.data[this.i][3])) * 1000) / 1000;
+            if (this.data[this.i][2] != undefined && this.data[this.i][2] != undefined) {
+                this.data[this.i][4] = Math.round(Math.abs(this.data[this.i][2] - this.data[this.i][3]) * 100) / 100
+                this.data[this.i][5] = Math.round((a3 / (this.data[this.i][4])) * 1000) / 1000;
                 this.i++;
             }
         } else {
-            this.data1[this.i][0] = this.i
+            this.data1[this.i][0] = this.i;
+            if(a3 != undefined){
+                this.data1[this.i][1] = a3;
+            }
             if (a1 != undefined) {
-                this.data1[this.i][1] = a1 / 100;
+                this.data1[this.i][2] = a1 / 100;
             }
             if (a2 != undefined) {
-                this.data1[this.i][2] = a2 / 100;
+                this.data1[this.i][3] = a2 / 100;
             }
-            if (this.data1[this.i][1] != undefined && this.data1[this.i][2] != undefined) {
-                this.data1[this.i][3] = Math.round((this.data1[this.i][1] - this.data1[this.i][2]) * 100) / 100
-                this.data1[this.i][4] = Math.round((a3 + (rho * (this.data1[this.i][3]))) * 1000) / 1000;
+            if (this.data1[this.i][2] != undefined && this.data1[this.i][3] != undefined) {
+                this.data1[this.i][4] = Math.round((this.data1[this.i][2] - this.data1[this.i][3]) * 100) / 100
+                this.data1[this.i][5] = Math.round((a3 + (rho * (this.data1[this.i][4]))) * 1000) / 1000;
                 this.i++;
             }
         }
@@ -277,10 +283,10 @@ function draw() {
             stroke(255, 0, 0);
             line(width / 2 + 100, 440, width / 2 + 100, 390);
             stroke(0);
-            
+
             circle(x, 480, 40);
             textAlign(CENTER);
-            let temp1 = round((x-435)/(1098-435)*100)
+            let temp1 = round((x - 435) / (1098 - 435) * 100)
             fill(0);
             text(temp1, x, 480)
             fill(255)
@@ -377,10 +383,10 @@ function draw() {
             stroke(255, 0, 0);
             line(width / 2 + 100, 440, width / 2 + 100, 390);
             stroke(0);
-            
+
             circle(x, 480, 40);
             textAlign(CENTER);
-            let temp1 = round((x-435)/(1098-435)*100)
+            let temp1 = round((x - 435) / (1098 - 435) * 100)
             fill(0);
             text(temp1, x, 480)
             fill(255)
@@ -568,11 +574,15 @@ function mousePressed() {
             x2 = 0;
             x1 = r;
             state2 = "left";
+            leftGap.buttonColor = [255 / 2, 255 / 2, 255 / 2];
+            rightGap.buttonColor = [0, 100, 100];
         }
         if (rightGap.mouseCollide()) {
             x1 = 0;
             x2 = r;
             state2 = "right";
+            rightGap.buttonColor = [255 / 2, 255 / 2, 255 / 2];
+            leftGap .buttonColor = [0, 100, 100];
         }
 
         // printing the values of the current position of the jockey wtr to left
@@ -691,11 +701,15 @@ function mousePressed() {
             x2 = "?";
             x1 = r;
             state2 = "left";
+            leftGap.buttonColor = [255 / 2, 255 / 2, 255 / 2];
+            rightGap .buttonColor = [0, 100, 100];
         }
         if (rightGap.mouseCollide()) {
             x1 = "?";
             x2 = r;
             state2 = "right";
+            rightGap.buttonColor = [255 / 2, 255 / 2, 255 / 2];
+            leftGap .buttonColor = [0, 100, 100];
         }
 
         // printing the values of the current position of the jockey wtr to left
