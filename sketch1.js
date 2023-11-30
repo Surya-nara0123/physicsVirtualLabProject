@@ -6,14 +6,14 @@ class button {
         this.buttonWidth = buttonWidth;
         this.buttonHeight = buttonHeight;
         this.text = text;
-        this.buttonColor = (255 / 2, 255 / 2, 255 / 2);
+        this.buttonColor = [0, 100, 100];
         this.textColor = 200;
     }
 
     draw() {
         fill(this.buttonColor);
-        strokeWeight(0);
-        rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight);
+        strokeWeight(1.5);
+        rect(this.buttonX, this.buttonY, this.buttonWidth, this.buttonHeight, 10);
         strokeWeight(1);
 
         let tw = textWidth(this.text);
@@ -227,7 +227,7 @@ class table {
             noStroke();
             let s = PI * 0.25 * 0.25 * temp;
             textSize(20);
-            text("mean value of X = " + s.toFixed(3) + "x 10^-6", x -100 + cellWidth / 2, 50 + y + cellHeight / 2);
+            text("mean value of X = " + s.toFixed(3) + "x 10^-6", x - 100 + cellWidth / 2, 50 + y + cellHeight / 2);
             textSize(12);
         }
     }
@@ -242,7 +242,8 @@ let r1;
 let r2;
 let r3;
 let r4;
-let switchExp = new button(370, 50, 150, 70, "Switch Experiments");
+let switchExp = new button(370 - 150 - 10, 50, 150, 70, "Determination of Rho");
+let switchExp1 = new button(370, 50, 150, 70, "Determination of X and S");
 let r;
 let noDeflectionPoint;
 let state2 = "null";
@@ -276,6 +277,14 @@ function draw() {
             stroke(255, 0, 0);
             line(width / 2 + 100, 440, width / 2 + 100, 390);
             stroke(0);
+            
+            circle(x, 480, 40);
+            textAlign(CENTER);
+            let temp1 = round((x-435)/(1098-435)*100)
+            fill(0);
+            text(temp1, x, 480)
+            fill(255)
+            textAlign(LEFT, BASELINE);
             if (state3 == "unlocked") {
                 x = constrain(mouseX, 435, 1098);
             }
@@ -303,6 +312,7 @@ function draw() {
         switchOnOff.draw();
         // switching the experiment between finding rho and unknown resistance
         switchExp.draw();
+        switchExp1.draw();
         // left gap button ; x2 = 0
         leftGap.draw();
         // right gap button ; x1 = 0
@@ -354,9 +364,9 @@ function draw() {
                 line(width / 2 + 100, 440, (width / 2 + 100) + (50 * sin(theta)), 440 - (50 * cos(theta)));
                 strokeWeight(1);
             }
-            
+
         }
-        
+
         exp1.displayTable();
     } else {
         clear();
@@ -367,6 +377,14 @@ function draw() {
             stroke(255, 0, 0);
             line(width / 2 + 100, 440, width / 2 + 100, 390);
             stroke(0);
+            
+            circle(x, 480, 40);
+            textAlign(CENTER);
+            let temp1 = round((x-435)/(1098-435)*100)
+            fill(0);
+            text(temp1, x, 480)
+            fill(255)
+            textAlign(LEFT, BASELINE);
             if (state3 == "unlocked") {
                 x = constrain(mouseX, 435, 1098);
             }
@@ -378,22 +396,23 @@ function draw() {
             line(width / 2 + 10, 410, (1098 + 435) / 2, 515);
             circle((1098 + 435) / 2, 515, 10);
         }
-        
+
         // creating the buttons to assign the values of the R
         r1 = new button(260, 290, 100, 20, 3.0);
         r2 = new button(260, 320, 100, 20, 3.1);
         r3 = new button(260, 350, 100, 20, 3.2);
         r4 = new button(260, 380, 100, 20, 3.3);
-        
+
         // background color
         //background(0, 0, 255);
-        
-        
+
+
         // creating the basic buttons
         // switch on/off the circuit
         switchOnOff.draw();
         // switching the experiment between finding rho and unknown resistance
         switchExp.draw();
+        switchExp1.draw();
         // left gap button ; x2 = 0
         leftGap.draw();
         // right gap button ; x1 = 0
@@ -403,10 +422,10 @@ function draw() {
         r2.draw();
         r3.draw();
         r4.draw();
-        
+
         // button that adds the values to the tables
         addToTable.draw();
-        
+
         // showing the value of x1, x2, x3, x4
         fill(255, 100, 200);
         rect(520, 215, 60, 20);
@@ -429,7 +448,7 @@ function draw() {
         fill(0)
         text('X4 = ' + x4, 825, 230);
         fill(255);
-        
+
         // after the key has been closed
         if (x1 != undefined && x2 != undefined && x3 != undefined && x4 != undefined) {
             if (state == "key in") {
@@ -444,13 +463,33 @@ function draw() {
                 line(width / 2 + 100, 440, (width / 2 + 100) + (50 * sin(theta)), 440 - (50 * cos(theta)));
                 strokeWeight(1);
             }
-            
+
         }
         exp2.displayTable();
     }
 }
 
 function mousePressed() {
+
+    if (switchExp.mouseCollide()) {
+        exp = 0;
+        switchOnOff = new button(670, 70, 100, 50, "switch ON/OFF");
+        leftGap = new button(410, 200, 100, 50, "left gap");
+        rightGap = new button(1030, 200, 100, 50, "right gap");
+        state2 = "null";
+        state = "key out";
+        state3 = "unlocked";
+        x1 = x2 = undefined;
+        exp1 = new table(0);
+        exp2 = new table(1);
+        switchExp.buttonColor = [255 / 2, 255 / 2, 255 / 2];
+        switchExp1.buttonColor = [0, 100, 100];
+    }
+    if (switchExp1.mouseCollide()) {
+        exp = 1;
+        switchExp1.buttonColor = [255 / 2, 255 / 2, 255 / 2];
+        switchExp.buttonColor = [0, 100, 100];
+    }
     if (exp == 0) {
         // managing switching on and off the cicuit
         if (switchOnOff.mouseCollide()) {
@@ -459,7 +498,7 @@ function mousePressed() {
                 switchOnOff.buttonColor = [255 / 2, 255 / 2, 255 / 2];
             } else if (state == "key out") {
                 state = "key in";
-                switchOnOff.buttonColor = [50, 210, 50];
+                switchOnOff.buttonColor = [0, 100, 100];
             }
         }
 
@@ -554,18 +593,6 @@ function mousePressed() {
         }
 
         // resetting all the values of the experiment to switch experiment
-        if (switchExp.mouseCollide()) {
-            exp = 1;
-            switchOnOff = new button(670, 70, 100, 50, "switch ON/OFF");
-            leftGap = new button(410, 200, 100, 50, "left gap");
-            rightGap = new button(1030, 200, 100, 50, "right gap");
-            state2 = "null";
-            state = "key out";
-            state3 = "unlocked";
-            x1 = x2 = undefined;
-            exp1 = new table(0);
-            exp2 = new table(1);
-        }
 
         // managing the function of adding the values of the circuit to the table
         if (addToTable.mouseCollide()) {
@@ -594,7 +621,7 @@ function mousePressed() {
                 switchOnOff.buttonColor = [255 / 2, 255 / 2, 255 / 2];
             } else if (state == "key out") {
                 state = "key in";
-                switchOnOff.buttonColor = [50, 210, 50];
+                switchOnOff.buttonColor = [0, 100, 100];
             }
         }
 
@@ -686,10 +713,6 @@ function mousePressed() {
                     }
                 }
             }
-        }
-
-        if (switchExp.mouseCollide()) {
-            exp = 0;
         }
 
         // managing the function of adding the values of the circuit to the table
